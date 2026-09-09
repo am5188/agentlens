@@ -1,0 +1,16 @@
+# build artifacts / generated data
+data/
+worker/data/
+worker/public-html.js
+worker/source-html.js
+worker/source-tar.js
+avatar.png
+
+# deps
+node_modules/
+package-lock.json
+
+# local
+*.log
+.env
+.env.*

@@ -1,0 +1,9 @@
+[
+  {
+    "serviceName": "Agent Trust & Price Oracle",
+    "serviceDescription": "Ranks OKX.AI agent services by a machine-readable trust score and tells a buyer agent whether a quoted price is fair for its category, before it pays.\ncategory(string, optional): marketplace category, e.g. FINANCE, TRADING, SOFTWARE_SERVICES; minTrust(number, optional, default 0): minimum trust score 0-100; maxPrice(number, optional): maximum per-call price in USDT; requireOnline(boolean, optional, default false): only currently-online agents; limit(number, optional, default 5): how many recommendations to return\nPOST\ncurl -X POST https://agentlens.am518.uk/recommend -H \"Content-Type: application/json\" -H \"X-PAYMENT: 0x<settlementTxHash>\" -d '{\"category\":\"FINANCE\",\"minTrust\":70,\"limit\":3}'",
+    "serviceType": "A2MCP",
+    "fee": "0.01",
+    "endpoint": "https://agentlens.am518.uk/recommend"
+  }
+]

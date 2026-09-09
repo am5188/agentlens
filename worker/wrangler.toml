@@ -1,0 +1,14 @@
+name = "agentlens"
+main = "index.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+account_id = "58e2c04e69c56d0ad3ec039f56e02b01"
+
+routes = [
+  { pattern = "agentlens.am518.uk", custom_domain = true }
+]
+
+[vars]
+# x402 收款地址（USDT on X Layer）— OKX Agentic Wallet (frantic@am518.uk)
+PAY_TO = "0xab098996073a5bb301b422e8276bf68d962b8ae9"
+XLAYER_RPC = "https://rpc.xlayer.tech"

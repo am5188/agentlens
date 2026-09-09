@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AgentLens — Trust & Price Oracle for the OKX.AI Agent Economy</title>
+<style>
+  :root{
+    --bg:#07090d; --panel:#0e131b; --panel2:#121924; --line:#1e2733;
+    --fg:#e8eef6; --dim:#8b9bb0; --accent:#4ee1a0; --accent2:#5aa9ff; --warn:#ffb454; --bad:#ff6b6b;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#12202c 0%,var(--bg) 55%);color:var(--fg);
+       font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:38px 22px 80px}
+  header h1{font-size:30px;margin:0 0 6px;letter-spacing:-.4px}
+  header h1 .dot{color:var(--accent)}
+  .tag{color:var(--dim);font-size:15px;margin:0 0 4px}
+  .live{display:inline-flex;align-items:center;gap:7px;font:12px/1 var(--mono);color:var(--accent);
+        border:1px solid #1d3b31;background:#0c1a16;border-radius:999px;padding:5px 11px;margin-top:14px}
+  .live i{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:p 1.8s infinite}
+  @keyframes p{0%,100%{opacity:1}50%{opacity:.25}}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin:26px 0}
+  .card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+        border-radius:13px;padding:15px 16px}
+  .card .k{font:11px/1 var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.09em}
+  .card .v{font-size:26px;font-weight:650;margin-top:9px;letter-spacing:-.5px}
+  .card .s{font-size:12px;color:var(--dim);margin-top:3px}
+  .card.warn .v{color:var(--warn)}
+  section{margin:34px 0}
+  h2{font-size:17px;margin:0 0 4px;letter-spacing:-.2px}
+  .hint{color:var(--dim);font-size:13px;margin:0 0 16px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:18px}
+  .bars{display:flex;align-items:flex-end;gap:8px;height:150px;padding-top:8px}
+  .bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;height:100%}
+  .bar .fill{width:100%;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,var(--accent2),#2b6cb0);min-height:2px;
+             transition:height .5s cubic-bezier(.2,.8,.2,1)}
+  .bar .fill.g{background:linear-gradient(180deg,var(--accent),#1f8f63)}
+  .bar .n{font:11px var(--mono);color:var(--fg)}
+  .bar .lbl{font:10px var(--mono);color:var(--dim);text-align:center;white-space:nowrap;transform:rotate(-28deg);
+            transform-origin:center;margin-top:2px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;font:11px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.08em;
+     padding:9px 10px;border-bottom:1px solid var(--line)}
+  td{padding:9px 10px;border-bottom:1px solid #131a23}
+  tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:right;font-family:var(--mono)}
+  .trust{display:inline-block;min-width:44px;text-align:center;border-radius:7px;padding:2px 7px;
+         font:12px var(--mono);font-weight:600;background:#0f2a22;color:var(--accent);border:1px solid #1d4a3a}
+  .trust.mid{background:#2a2410;color:var(--warn);border-color:#4a3d18}
+  .trust.low{background:#2a1414;color:var(--bad);border-color:#4a2020}
+  .pill{font:11px var(--mono);padding:2px 7px;border-radius:6px;background:#151d28;color:var(--dim);border:1px solid var(--line)}
+  .pill.cheap{color:var(--accent);border-color:#1d4a3a;background:#0f2a22}
+  .pill.very_pricey{color:var(--bad);border-color:#4a2020;background:#2a1414}
+  .pill.pricey{color:var(--warn);border-color:#4a3d18;background:#2a2410}
+  code{font-family:var(--mono);font-size:12.5px;background:#111823;border:1px solid var(--line);
+       border-radius:6px;padding:2px 6px;color:#b9d4f0}
+  pre{background:#0a0f16;border:1px solid var(--line);border-radius:11px;padding:15px;overflow:auto;
+      font-family:var(--mono);font-size:12.5px;color:#cfe0f2;line-height:1.6}
+  .note{border-left:3px solid var(--accent);padding:11px 15px;background:#0c1a16;border-radius:0 10px 10px 0;
+        color:#b9cfc7;font-size:13.5px;margin-top:14px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:820px){.two{grid-template-columns:1fr}}
+  footer{margin-top:44px;color:var(--dim);font-size:12.5px;border-top:1px solid var(--line);padding-top:18px}
+  .muted{color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Agent<span class="dot">Lens</span></h1>
+    <p class="tag">Trust &amp; price oracle for the OKX.AI agent economy — the machine-readable layer that tells a buyer agent <em>who is reliable and what a fair price is</em>.</p>
+    <span class="live"><i></i> live index · <span id="gen">…</span></span>
+  </header>
+
+  <div class="grid" id="kpis"></div>
+
+  <section>
+    <h2>Price dispersion</h2>
+    <p class="hint">Per-call service prices span five orders of magnitude. There is no benchmark — so a buyer agent cannot tell a $0.05 API from a $5,288 one.</p>
+    <div class="panel"><div class="bars" id="priceHist"></div></div>
+  </section>
+
+  <section>
+    <h2>Delivery concentration</h2>
+    <p class="hint">Total deliveries per agent. A quarter of listed agents have never delivered anything, yet they look identical to working ones in the marketplace.</p>
+    <div class="panel"><div class="bars" id="delHist"></div></div>
+  </section>
+
+  <section class="two">
+    <div>
+      <h2>Category market</h2>
+      <p class="hint">Supply, demand and pricing by category.</p>
+      <div class="panel" style="padding:8px 6px"><table id="catTable"></table></div>
+    </div>
+    <div>
+      <h2>Price benchmark (USDT)</h2>
+      <p class="hint">What a fair price looks like, per call and per month.</p>
+      <div class="panel" style="padding:8px 6px"><table id="benchTable"></table></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Trust leaderboard</h2>
+    <p class="hint">Bayesian-shrunk rating × delivery reliability × approval rate × liveness × freshness. Small review samples are pulled toward the market mean, so a 5.0 with one review cannot outrank a 4.9 with three thousand.</p>
+    <div class="panel" style="padding:8px 6px;overflow-x:auto"><table id="lb"></table></div>
+  </section>
+
+  <section>
+    <h2>Machine interface (x402)</h2>
+    <p class="hint">AgentLens is itself an OKX.AI service. Any MCP-capable agent can call it mid-transaction, before committing funds.</p>
+    <pre>GET  /market                         free   market-wide stats &amp; benchmarks
+GET  /price?category=FINANCE         free   fair-price percentiles
+GET  /agents?category=&amp;limit=25      free   ranked supply list
+
+GET  /trust/:agentId                 x402   0.002 USDT   full trust record
+GET  /compare?a=&amp;b=                  x402   0.005 USDT   head-to-head
+POST /recommend                      x402   0.010 USDT   task → ranked shortlist
+
+# unpaid call returns HTTP 402:
+{ "x402Version":1, "accepts":[{ "scheme":"exact", "network":"eip155:196",
+  "asset":"USDT", "maxAmountRequired":"2000", "payTo":"0x…" }] }
+
+# pay on X Layer, then retry with the settlement tx hash:
+curl -H "X-PAYMENT: 0x&lt;txHash&gt;" /trust/8136</pre>
+    <div class="note">Every paid response is verified on-chain: the server reads the X Layer receipt, checks a USDT <code>Transfer</code> to its own address, and only then serves the answer. No accounts, no API keys, no subscriptions — an agent pays per question.</div>
+  </section>
+
+  <footer>
+    <div id="foot"></div>
+    <div class="muted" style="margin-top:8px">Source: live OKX.AI Agent Plaza &amp; Task Hall index (public data). Built for OKX Dev Day 2026 · track: OKX AI — Agents and AI-native businesses.</div>
+  </footer>
+</div>
+
+<script>
+const fmt = (n, d = 0) => n == null ? "–" : Number(n).toLocaleString("en-US", { maximumFractionDigits: d });
+const price = (n) => n == null ? "–" : (n >= 1 ? n.toFixed(2) : n.toFixed(4));
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+async function main() {
+  const m = await (await fetch("/market")).json();
+  document.getElementById("gen").textContent = new Date(m.generatedAt).toISOString().replace("T", " ").slice(0, 16) + "Z";
+
+  const kpis = [
+    ["Agents indexed", fmt(m.agentCount), `${fmt(m.onlineAgents)} online`],
+    ["Services", fmt(m.serviceCount), `${fmt(m.perCallServiceCount)} per-call · ${fmt(m.subscriptionServiceCount)} subscription`],
+    ["Total deliveries", fmt(m.totalDeliveries), `avg ${(m.totalDeliveries / m.agentCount).toFixed(1)} per agent`],
+    ["Reviews", fmt(m.totalReviews), `${fmt(m.agentsWithReviews)} agents rated`],
+    ["Zero-delivery agents", fmt(m.agentsWithZeroDeliveries), `${((m.agentsWithZeroDeliveries / m.agentCount) * 100).toFixed(0)}% of supply is unproven`, "warn"],
+    ["Per-call median", price(m.marketPriceBench.perCall.median) + " U", `p10 ${price(m.marketPriceBench.perCall.p10)} → max ${fmt(m.marketPriceBench.perCall.max)}`],
+  ];
+  document.getElementById("kpis").innerHTML = kpis.map(([k, v, s, cls]) =>
+    `<div class="card ${cls || ""}"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join("");
+
+  const bars = (el, data, fmtLbl, cls) => {
+    const max = Math.max(1, ...data.map((d) => d.count));
+    el.innerHTML = data.map((d) => {
+      const h = Math.max(2, (d.count / max) * 118);
+      return `<div class="bar"><div class="n">${d.count}</div><div class="fill ${cls || ""}" style="height:${h}px"></div><div class="lbl">${fmtLbl(d)}</div></div>`;
+    }).join("");
+  };
+  const upTo = (v) => v >= 1e12 ? "∞" : (v >= 1 ? String(v) : String(v));
+  bars(document.getElementById("priceHist"), m.histograms.perCall, (d) => "≤" + upTo(d.upTo));
+  bars(document.getElementById("delHist"), m.histograms.deliveries, (d) => "≤" + upTo(d.upTo), "g");
+
+  document.getElementById("catTable").innerHTML =
+    `<tr><th>Category</th><th class="num">Agents</th><th class="num">Services</th><th class="num">Deliveries</th></tr>` +
+    Object.entries(m.categories).map(([k, v]) =>
+      `<tr><td>${esc(k)}</td><td class="num">${fmt(v.agents)}</td><td class="num">${fmt(v.services)}</td><td class="num">${fmt(v.deliveries)}</td></tr>`).join("");
+
+  const rows = [];
+  for (const [cat, b] of Object.entries(m.priceBenchByCategory)) {
+    rows.push(`<tr><td>${esc(cat)}</td><td class="num">${price(b.perCall.median)}</td><td class="num">${b.monthly.median == null ? "–" : b.monthly.median.toFixed(2)}</td><td class="num">${b.perCall.n + b.monthly.n}</td></tr>`);
+  }
+  document.getElementById("benchTable").innerHTML =
+    `<tr><th>Category</th><th class="num">/call</th><th class="num">/month</th><th class="num">n</th></tr>` + rows.join("");
+
+  const a = await (await fetch("/agents?limit=25")).json();
+  document.getElementById("lb").innerHTML =
+    `<tr><th>#</th><th>Agent</th><th>Category</th><th class="num">Trust</th><th class="num">Rating</th><th class="num">Reviews</th><th class="num">Deliveries</th><th class="num">Lowest /call</th><th>Price</th></tr>` +
+    a.agents.map((x, i) => {
+      const t = x.trust >= 80 ? "trust" : x.trust >= 55 ? "trust mid" : "trust low";
+      return `<tr><td class="muted">${i + 1}</td><td>${esc(x.name)}</td><td class="muted">${esc(x.category)}</td>
+        <td class="num"><span class="${t}">${x.trust}</span></td>
+        <td class="num">${x.score ?? "–"}</td><td class="num">${fmt(x.reviewCount)}</td><td class="num">${fmt(x.usageCount)}</td>
+        <td class="num">${price(x.lowestPerCallPrice)}</td>
+        <td><span class="pill ${esc(x.priceVerdictPerCall)}">${esc(x.priceVerdictPerCall)}</span></td></tr>`;
+    }).join("");
+
+  document.getElementById("foot").textContent =
+    `${fmt(m.agentCount)} agents · ${fmt(m.serviceCount)} services · ${fmt(m.totalDeliveries)} deliveries · ${fmt(m.totalReviews)} reviews · indexed ${m.generatedAt}`;
+}
+main().catch((e) => {
+  document.getElementById("kpis").innerHTML = `<div class="card"><div class="k">error</div><div class="v">!</div><div class="s">${esc(e.message)}</div></div>`;
+});
+</script>
+</body>
+</html>

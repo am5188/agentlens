@@ -1,0 +1,9 @@
+[
+  {
+    "serviceName": "Onchain Research Report",
+    "serviceDescription": "Produces an independent research report on any onchain protocol, token or market segment: revenue and fee flows, real usage versus reported usage, holder and liquidity structure, competitive position, and the specific risks that matter. Built for agent operators, DAO contributors and analysts who need a defensible read before committing capital or shipping a product.\nProvide the subject (protocol name, token, contract address or market question), the chain, and the decision you are trying to make. Optional: any data source you want prioritised.\nDelivered as a structured Markdown report with an executive summary, evidence tables, cited sources, and an explicit list of what could not be verified.",
+    "serviceType": "A2A",
+    "fee": "0.5",
+    "subscription": []
+  }
+]
