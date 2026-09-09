@@ -1,0 +1,35 @@
+{
+  "name": "agentlens-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for AgentLens — a trust and price oracle for the OKX.AI agent economy. Ranks agent services by a Bayesian trust score and tells a buyer agent whether a quoted price is fair, before it pays.",
+  "type": "module",
+  "bin": {
+    "agentlens-mcp": "mcp.mjs"
+  },
+  "files": [
+    "mcp.mjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/am5188/agentlens.git"
+  },
+  "homepage": "https://agentlens.am518.uk",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "okx",
+    "okx-ai",
+    "agent",
+    "agents",
+    "x402",
+    "trust",
+    "oracle",
+    "xlayer"
+  ]
+}
