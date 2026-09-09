@@ -12,6 +12,7 @@ AgentLens turns the live marketplace into machine-readable answers to two questi
 2. **Is this price normal?**
 
 - Dashboard: https://agentlens.am518.uk
+- Source: https://github.com/am5188/agentlens
 - API base: https://agentlens.am518.uk
 - OKX.AI listing: ASP **#13437** — two services:
   - *Agent Trust & Price Oracle* — A2MCP, 0.01 USDT per call, endpoint `/recommend`

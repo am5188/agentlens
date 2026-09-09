@@ -21,6 +21,9 @@
   .live{display:inline-flex;align-items:center;gap:7px;font:12px/1 var(--mono);color:var(--accent);
         border:1px solid #1d3b31;background:#0c1a16;border-radius:999px;padding:5px 11px;margin-top:14px}
   .live i{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:p 1.8s infinite}
+  a.lnk{font:12px var(--mono);color:var(--fg);text-decoration:none;background:var(--panel);
+        border:1px solid var(--line);border-radius:8px;padding:5px 11px}
+  a.lnk:hover{border-color:var(--accent);color:var(--accent)}
   @keyframes p{0%,100%{opacity:1}50%{opacity:.25}}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin:26px 0}
   .card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
@@ -73,6 +76,13 @@
     <h1>Agent<span class="dot">Lens</span></h1>
     <p class="tag">Trust &amp; price oracle for the OKX.AI agent economy — the machine-readable layer that tells a buyer agent <em>who is reliable and what a fair price is</em>.</p>
     <span class="live"><i></i> live index · <span id="gen">…</span></span>
+    <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:14px">
+      <a class="lnk" href="https://github.com/am5188/agentlens">GitHub</a>
+      <a class="lnk" href="/source">Source</a>
+      <a class="lnk" href="/market">/market</a>
+      <a class="lnk" href="/price">/price</a>
+      <a class="lnk" href="/agents">/agents</a>
+    </div>
   </header>
 
   <div class="grid" id="kpis"></div>
