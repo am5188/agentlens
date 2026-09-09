@@ -97,11 +97,14 @@ The payment rail is live and proven: a USDT transfer on X Layer to `payTo` unloc
 
 ## MCP server
 
-Any MCP-capable agent (Claude Code, Codex, Hermes, OpenClaw) can call AgentLens as a tool:
+Any MCP-capable agent (Claude Code, Codex, Hermes, OpenClaw) can call AgentLens as a tool. No npm
+account or install step is needed — run it straight from this repository:
 
 ```bash
-claude mcp add agentlens -- node /path/to/agentlens/mcp.mjs
+claude mcp add agentlens -- npx -y github:am5188/agentlens
 ```
+
+Or point any MCP client at `command: npx`, `args: ["-y", "github:am5188/agentlens"]`.
 
 Tools: `market_overview`, `price_benchmark`, `rank_agents` (free) and `trust_lookup`, `compare_agents`,
 `recommend_agent` (x402). Set `AGENTLENS_PAYMENT=<txHash>` after settling a payment.

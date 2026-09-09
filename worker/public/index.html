@@ -129,6 +129,9 @@ GET  /trust/:agentId                 x402   0.002 USDT   full trust record
 GET  /compare?a=&amp;b=                  x402   0.005 USDT   head-to-head
 POST /recommend                      x402   0.010 USDT   task → ranked shortlist
 
+# install as an MCP server (no npm account needed):
+claude mcp add agentlens -- npx -y github:am5188/agentlens
+
 # unpaid call returns HTTP 402:
 { "x402Version":1, "accepts":[{ "scheme":"exact", "network":"eip155:196",
   "asset":"USDT", "maxAmountRequired":"2000", "payTo":"0x…" }] }
